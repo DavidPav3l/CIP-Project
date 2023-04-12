@@ -1,3 +1,13 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+h1 {
+  background: rgb(255, 59, 255);
+  background: linear-gradient(
+    90deg,
+    rgb(206, 59, 255) 0%,
+    rgba(92, 36, 255, 1) 22%,
+    rgb(176, 39, 119) 100%
+  );
+
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

@@ -10,6 +10,13 @@ module.exports = {
         sourceType: 'module',
     },
     rules: {
+        '@html-eslint/no-duplicate-id': 'error',
+        '@html-eslint/require-li-container': 'error',
+        '@html-eslint/no-obsolete-tags': 'error',
+        '@html-eslint/no-duplicate-attrs': 'error',
+        '@html-eslint/require-button-type': 'error',
+        '@html-eslint/no-multiple-h1': 'error',
+        '@html-eslint/no-target-blank': 'error',
         '@html-eslint/require-closing-tags': [
             'error',
             { selfClosing: 'always' },
@@ -24,7 +31,6 @@ module.exports = {
         {
             files: ['*.html'],
             parser: '@html-eslint/parser',
-            extends: ['plugin:@html-eslint/recommended'],
         },
     ],
 };

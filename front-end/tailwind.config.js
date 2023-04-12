@@ -13,8 +13,17 @@ module.exports = {
             '3xl': '1700px',
         },
         extend: {
-            colors: {},
-            fontFamily: {},
+            colors: {
+                albastriu: '#4d29ff',
+                purpuriu: '#6800ff',
+                'dark-gray': '#656565',
+                fullblack: '#000000',
+            },
+            fontFamily: {
+                Play: ['Play', 'sans-serif'],
+                exo: ["'Exo 2'", 'sans-serif'],
+                monda: ['Monda', 'sans-serif'],
+            },
         },
     },
     variants: {
