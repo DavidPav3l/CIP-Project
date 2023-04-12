@@ -4,8 +4,8 @@
     "description": "The best starter",
     "private": true,
     "scripts": {
-        "start-front": "webpack serve --mode=development --open",
-        "build-front": "webpack --config webpack-prod.config.js",
+        "start": "webpack serve --mode=development --open",
+        "build": "webpack --config webpack-prod.config.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [],
