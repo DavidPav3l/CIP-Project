@@ -1,4 +1,4 @@
-h1 {
+.gradient {
   background: rgb(255, 59, 255);
   background: linear-gradient(
     90deg,
@@ -10,4 +10,108 @@ h1 {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.ham {
+  filter: invert(95%) sepia(100%) saturate(0%) hue-rotate(200deg)
+    brightness(105%) contrast(105%);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 600ms;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.hamRotate.active {
+  transform: rotate(45deg);
+}
+.hamRotate180.active {
+  transform: rotate(180deg);
+}
+
+.line {
+  fill: none;
+  transition: stroke-dasharray 400ms, stroke-dashoffset 400ms;
+  stroke: #000;
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+.ham6 .top {
+  stroke-dasharray: 40 172;
+}
+.ham6 .middle {
+  stroke-dasharray: 40 111;
+}
+.ham6 .bottom {
+  stroke-dasharray: 40 172;
+}
+.ham6.active .top {
+  stroke-dashoffset: -132px;
+}
+.ham6.active .middle {
+  stroke-dashoffset: -71px;
+}
+.ham6.active .bottom {
+  stroke-dashoffset: -132px;
+}
+.footer {
+  --footer-background: #6800ff;
+  display: grid;
+  grid-area: 'footer';
+  min-height: 8rem;
+  z-index: 10;
+}
+.footer #bubble-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1rem;
+  background: var(--footer-background);
+  filter: url(#blob);
+}
+.footer #bubble-container .bubble {
+  position: absolute;
+  left: var(--blob-position, 50%);
+  background: var(--footer-background);
+  border-radius: 100%;
+  transform: translate(-50%, 50%);
+  animation: bubble-size var(--blob-time, 4s) ease-in infinite
+      var(--blob-delay, 0s),
+    bubble-move var(--blob-time, 4s) ease-in infinite var(--blob-delay, 0s);
+}
+.footer .content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 4rem;
+  background-color: var(--footer-background);
+  z-index: 20;
+}
+.footer .content p {
+  font-size: 0.75rem;
+  color: #f5f7fa;
+}
+.footer .content > div {
+  max-width: 40rem;
+}
+@keyframes bubble-size {
+  0%,
+  75% {
+    width: var(--blob-size, 4rem);
+    height: var(--blob-size, 4rem);
+  }
+  100% {
+    width: 0rem;
+    height: 0rem;
+  }
+}
+@keyframes bubble-move {
+  0% {
+    bottom: -4rem;
+  }
+  100% {
+    bottom: var(--blob-distance, 10rem);
+  }
 }
