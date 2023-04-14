@@ -3,11 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
-  "engines": {
-    "node": "18.x"
-  },
   "scripts": {
-    "build": "node app.js"
+    "build": "nodemon app.js"
   },
   "keywords": [],
   "author": "",
