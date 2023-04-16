@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0"
+    />
+    <title>FutureHubAI</title>
+  </head>
+  <body class="h-full bg-fullblack font-monda text-white xs:text-xl">
+    <header class="px-5 py-3 md:py-5">
+      <a href="./index.html">
+        <img
+          class="w-12 transition-transform duration-300 hover:scale-110"
+          src="../assets/back(1).png"
+          alt="go back to main page"
+        />
+      </a>
+    </header>
+    <div
+      class="relative mx-auto flex w-[70%] max-w-3xl flex-col items-center justify-start rounded-xl border-t border-b border-albastriu px-4 pb-14 shadow-2xl shadow-purpuriu md:mb-16 md:px-6"
+    >
+      <img
+        src="../assets/robot(1).png"
+        class="absolute -top-14 w-20 md:-top-20 md:w-32"
+        alt="Robotel rezumator"
+      />
+      <h1
+        class="mt-10 mb-12 text-center font-Play text-xl font-bold xs:text-2xl md:mt-12 2xl:text-3xl"
+      >
+        Sunt aici sa te ajut cu un rezumat!
+      </h1>
+      <div class="mb-10 flex w-56 items-center justify-center">
+        <button
+          id="textBtn"
+          class="activ grow basis-0 rounded-l-md border-y border-l border-purpuriu px-2 py-1 font-Play font-bold"
+          type="button"
+        >
+          Text
+        </button>
+        <button
+          id="fileBtn"
+          class="grow basis-0 rounded-r-md border-y border-r border-l border-purpuriu px-2 py-1 font-Play font-bold"
+          type="button"
+        >
+          Fisier
+        </button>
+      </div>
+      <form
+        id="form_text"
+        class="flex w-[80%] flex-col items-center justify-center gap-5"
+      >
+        <textarea
+          name="text"
+          id="text"
+          class="w-full rounded-lg border border-purpuriu bg-albastriu bg-opacity-20 py-4 px-4 text-base outline-none"
+          cols="20"
+          rows="10"
+          required
+          placeholder="Scrie aici continutul pe care doresti sa-l sumarizez!"
+        ></textarea>
+        <input
+          type="submit"
+          class="self-end rounded-md border border-gray-400 px-5 py-1 font-Play uppercase text-gray-400 transition-colors duration-300 hover:border-white hover:bg-albastriu hover:text-white"
+          value="Trimite"
+        />
+      </form>
+      <form
+        id="form_fisier"
+        class="hidden w-[80%] flex-col items-center justify-center gap-5 font-exo"
+      >
+        <label
+          for="images"
+          class="drop-container w-full border-albastriu bg-albastriu bg-opacity-20 font-exo text-white"
+        >
+          <span class="drop-title">Trage un fisier aici</span>
+          sau
+          <input
+            type="file"
+            class="self-start text-white"
+            id="file"
+            name="file"
+            accept="accept"
+            required
+          />
+        </label>
+
+        <input
+          type="submit"
+          class="self-end rounded-md border border-gray-400 px-5 py-1 font-Play uppercase text-gray-400 transition-colors duration-300 hover:border-white hover:bg-albastriu hover:text-white"
+          value="Trimite"
+        />
+      </form>
+    </div>
+  </body>
+</html>
