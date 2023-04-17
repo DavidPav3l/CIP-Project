@@ -38,7 +38,7 @@ const RemoveInputandAddLoading = () => {
 };
 
 // UPDATE UI WITH OUTPUT
-const OutputUpdate = (info) => {
+const OutputUpdate = (info, formix, numero) => {
   loading.classList.remove('scale-1');
   loading.classList.add('hidden');
   const resContent = info;
@@ -48,6 +48,7 @@ const OutputUpdate = (info) => {
   const arrowImg = document.createElement('img');
   const robotelImg = document.createElement('img');
   const outputTitle = document.createElement('h2');
+  const regenBtn = document.createElement('button');
   outputTitle.textContent = 'Am terminat rezumatul!';
   outputTitle.classList.add(
     'mt-10',
@@ -70,6 +71,26 @@ const OutputUpdate = (info) => {
   );
   arrowImg.src = arrow;
   backArrow.appendChild(arrowImg);
+  backArrow.setAttribute('type', 'button');
+  regenBtn.setAttribute('type', 'button');
+  regenBtn.textContent = 'Regenereaza';
+  regenBtn.classList.add(
+    'self-end',
+    'rounded-md',
+    'border',
+    'border-gray-400',
+    'px-5',
+    'py-1',
+    'font-Play',
+    'uppercase',
+    'mt-3',
+    'text-gray-400',
+    'transition-colors',
+    'duration-300',
+    'hover:border-white',
+    'hover:bg-albastriu',
+    'hover:text-white'
+  );
   arrowImg.classList.add(
     'w-8',
     'h-8',
@@ -80,10 +101,23 @@ const OutputUpdate = (info) => {
   backArrow.classList.add('absolute', 'left-2', 'top-2');
   outputContent.style.whiteSpace = 'pre-line';
   outputContent.textContent = resContent;
-  outputContent.classList.add('font-exo', 'text-white');
+  outputContent.classList.add(
+    'font-exo',
+    'text-white',
+    'max-h-[60vh]',
+    'overflow-y-scroll',
+    'px-6',
+    'py-4',
+    'rounded-lg',
+    'border',
+    'border-purpuriu',
+    'bg-albastriu',
+    'bg-opacity-20'
+  );
   outputContainer.classList.add(
     'relative',
     'mt-32',
+    'mb-12',
     'mx-auto',
     'flex',
     'w-[70%]',
@@ -110,13 +144,61 @@ const OutputUpdate = (info) => {
   outputContainer.appendChild(outputContent);
   outputContainer.appendChild(backArrow);
   outputContainer.appendChild(robotelImg);
+  outputContainer.appendChild(regenBtn);
   document.querySelector('body').append(outputContainer);
+
+  // INAPOI LA INPUT FORM
   backArrow.addEventListener('click', () => {
     inputContainer.classList.remove('hidden');
     inputContainer.classList.add('flex');
     loading.classList.add('scale-0');
     loading.classList.remove('hidden');
     outputContainer.remove();
+    formix.reset();
+  });
+
+  // REGENEREAZA RASPUNS
+  regenBtn.addEventListener('click', async () => {
+    outputContainer.classList.remove('flex');
+    outputContainer.classList.add('hidden');
+    loading.classList.remove('hidden');
+    loading.classList.add('scale-1');
+    if (numero === 1) {
+      const formData = new FormData();
+      formData.append('pdfFile', formix.file.files[0]);
+      try {
+        const res = await axios.post('/rezumat/file', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        loading.classList.remove('scale-1');
+        loading.classList.add('hidden');
+        outputContainer.classList.remove('hidden');
+        outputContainer.classList.add('flex');
+        outputContent.textContent = res.data.completion.content;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    if (numero === 2) {
+      const formData = new FormData();
+      formData.append('textData', formix.text.value);
+      try {
+        const res = await axios.post('/rezumat/text', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        loading.classList.remove('scale-1');
+        loading.classList.add('hidden');
+        outputContainer.classList.remove('hidden');
+        outputContainer.classList.add('flex');
+        outputContent.textContent = res.data.completion.content;
+      } catch (error) {
+        console.log(error);
+      }
+    }
   });
 };
 
@@ -133,11 +215,10 @@ fileForm.addEventListener('submit', async (e) => {
         'Content-Type': 'multipart/form-data',
       },
     });
-    OutputUpdate(res.data.completion.content);
+    OutputUpdate(res.data.completion.content, fileForm, 1);
   } catch (error) {
     console.log(error);
   }
-  fileForm.reset();
 });
 
 textForm.addEventListener('submit', async (e) => {
@@ -149,11 +230,10 @@ textForm.addEventListener('submit', async (e) => {
   formData.append('textData', e.target.text.value);
   try {
     const res = await axios.post('/rezumat/text', formData);
-    OutputUpdate(res.data.completion.content);
+    OutputUpdate(res.data.completion.content, textForm, 2);
   } catch (error) {
     console.log(error);
   }
-  textForm.reset();
 });
 
 window.onload = () => {
