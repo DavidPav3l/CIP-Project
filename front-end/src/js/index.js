@@ -40,7 +40,7 @@ ScrollReveal().reveal('#sec_3', {
 });
 
 ScrollReveal().reveal('#apl', {
-  delay: 225,
+  delay: 125,
   distance: '0px',
   opacity: 0,
   duration: 1500,
