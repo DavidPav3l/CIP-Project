@@ -24,10 +24,9 @@
 input[type='file']::file-selector-button {
   border-style: solid;
   border-width: 1px;
-  width: 100px;
   background: transparent;
-  font-size: 1rem;
-  padding: 10px 20px;
+  font-size: 0.85rem;
+  padding: 10px 10px;
   border-radius: 10px;
   border-color: rgb(156 163 175);
   color: rgb(156 163 175);
@@ -39,12 +38,20 @@ input[type='file'] {
   position: absolute;
   font-weight: bold;
   width: 100%;
-
   padding-top: 100px;
-  padding-left: 30px;
+  padding-left: 10px;
   text-align: start;
   height: 100%;
   inset: 0;
+  @media (min-width: 500px) {
+    padding-left: 40px;
+  }
+  @media (min-width: 700px) {
+    padding-left: 80px;
+  }
+  @media (min-width: 900px) {
+    padding-left: 140px;
+  }
 }
 
 input[type='file']::file-selector-button:hover {

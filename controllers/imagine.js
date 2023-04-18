@@ -34,7 +34,6 @@ const photoInput = async (req, res) => {
       3,
       '1024x1024'
     );
-    console.log(response.data);
     res.status(200).send(response.data);
   } catch (error) {
     res.status(404).send(error);

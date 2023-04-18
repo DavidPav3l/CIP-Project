@@ -24,10 +24,15 @@
       <div
         class="relative mx-auto flex w-[85%] max-w-3xl flex-col items-center justify-center rounded-xl border-t border-b border-albastriu py-12 px-3 shadow-2xl shadow-purpuriu transition-all duration-300 md:px-6"
       >
-        <div class="mb-10 text-center font-exo font-bold">
+        <div class="mb-3 text-center font-exo font-bold">
           Incarca o poza la alegere pentru a genera, cu ajutorul inteligentei
           artificiale, imagini asemanatoare cu cea incarcata.
         </div>
+        <span class="mb-6 text-center font-exo">
+          Generarea de imagini functioneaza doar cu poze
+          <span class="font-Play font-bold">png si jpeg</span> si poate dura
+          <span class="font-Play font-bold">pana la un minut</span> .
+        </span>
         <form
           id="form_fisier"
           class="flex w-[90%] flex-col items-center justify-center gap-5 font-exo"
@@ -94,50 +99,65 @@
           <div
             class="grid w-full grid-cols-1 justify-items-center gap-5 2xl:grid-cols-3"
           >
-            <div
-              class="w-[200px] overflow-hidden rounded-lg border border-purpuriu px-1 py-1 xxs:w-[300px] 2xl:w-[350px]"
-            >
-              <img
-                src="../assets/Rolling-1.6s-167px.svg"
-                class="loading hidden w-full"
-                alt="loading"
-              />
-              <img
-                id="img_gen_1"
-                src="#"
-                class="w-full"
-                alt="poza generata de IA"
-              />
+            <div>
+              <div
+                class="w-[200px] overflow-hidden rounded-lg border border-purpuriu px-1 py-1 xxs:w-[300px] 2xl:w-[350px]"
+              >
+                <img
+                  src="../assets/Rolling-1.6s-167px.svg"
+                  class="loading hidden w-full"
+                  alt="loading"
+                />
+                <img
+                  id="img_gen_1"
+                  src="#"
+                  class="w-full"
+                  alt="poza generata de IA"
+                />
+              </div>
+              <a href="" download class="download_img font-Play font-bold"
+                >Descarca Imaginea</a
+              >
             </div>
-            <div
-              class="w-[200px] overflow-hidden rounded-lg border border-purpuriu px-1 py-1 xxs:w-[300px] 2xl:w-[350px]"
-            >
-              <img
-                src="../assets/Rolling-1.6s-167px.svg"
-                class="loading hidden w-full"
-                alt="loading"
-              />
-              <img
-                id="img_gen_2"
-                src="#"
-                class="w-full"
-                alt="poza generata de IA"
-              />
+            <div>
+              <div
+                class="w-[200px] overflow-hidden rounded-lg border border-purpuriu px-1 py-1 xxs:w-[300px] 2xl:w-[350px]"
+              >
+                <img
+                  src="../assets/Rolling-1.6s-167px.svg"
+                  class="loading hidden w-full"
+                  alt="loading"
+                />
+                <img
+                  id="img_gen_2"
+                  src="#"
+                  class="w-full"
+                  alt="poza generata de IA"
+                />
+              </div>
+              <a href="" download class="download_img font-Play font-bold"
+                >Descarca Imaginea</a
+              >
             </div>
-            <div
-              class="w-[200px] overflow-hidden rounded-lg border border-purpuriu px-1 py-1 xxs:w-[300px] 2xl:w-[350px]"
-            >
-              <img
-                src="../assets/Rolling-1.6s-167px.svg"
-                class="loading hidden w-full"
-                alt="loading"
-              />
-              <img
-                id="img_gen_3"
-                src="#"
-                class="w-full"
-                alt="poza generata de IA"
-              />
+            <div>
+              <div
+                class="w-[200px] overflow-hidden rounded-lg border border-purpuriu px-1 py-1 xxs:w-[300px] 2xl:w-[350px]"
+              >
+                <img
+                  src="../assets/Rolling-1.6s-167px.svg"
+                  class="loading hidden w-full"
+                  alt="loading"
+                />
+                <img
+                  id="img_gen_3"
+                  src="#"
+                  class="w-full"
+                  alt="poza generata de IA"
+                />
+              </div>
+              <a href="" download class="download_img font-Play font-bold"
+                >Descarca Imaginea</a
+              >
             </div>
           </div>
         </div>

@@ -10,9 +10,9 @@ const imgUser = document.querySelector('#img_user');
 const outputSec = document.querySelector('#output_section');
 const loadingUser = document.querySelector('.loading_user');
 const loadings = document.querySelectorAll('.loading');
+const downloadLinks = document.querySelectorAll('.download_img');
 
-formFisier.addEventListener('submit', async (e) => {
-  e.preventDefault();
+const ImgGenLoadingUI = (file) => {
   imgUser.classList.add('hidden');
   imgGen1.classList.add('hidden');
   imgGen2.classList.add('hidden');
@@ -29,7 +29,11 @@ formFisier.addEventListener('submit', async (e) => {
     outputSec.classList.add('grid');
   }
   document.querySelector('#scroll').scrollIntoView();
-  const file = e.target.file.files[0];
+
+  downloadLinks.forEach((link) => {
+    link.classList.add('hidden');
+  });
+
   const readery = new FileReader();
   readery.onload = () => {
     imgUser.src = readery.result;
@@ -37,6 +41,98 @@ formFisier.addEventListener('submit', async (e) => {
     loadingUser.classList.add('hidden');
   };
   readery.readAsDataURL(file);
+};
+
+const ImgGenPhotoRender = async (res) => {
+  let promise1 = new Promise(function (resolve, reject) {
+    try {
+      const imgload1 = new Image();
+      imgload1.onload = function () {
+        imgGen1.src = this.src;
+        resolve();
+      };
+      imgload1.src = `${res.data.data[0].url}`;
+    } catch (error) {
+      reject(error);
+    }
+  });
+  let promise2 = new Promise(function (resolve, reject) {
+    try {
+      const imgload2 = new Image();
+      imgload2.onload = function () {
+        imgGen2.src = this.src;
+        resolve();
+      };
+      imgload2.src = `${res.data.data[1].url}`;
+    } catch (error) {
+      reject(error);
+    }
+  });
+  let promise3 = new Promise(function (resolve, reject) {
+    try {
+      const imgload3 = new Image();
+      imgload3.onload = function () {
+        imgGen3.src = this.src;
+        resolve();
+      };
+      imgload3.src = `${res.data.data[2].url}`;
+    } catch (error) {
+      reject(error);
+    }
+  });
+  await Promise.all([promise1, promise2, promise3]);
+  imgGen1.classList.remove('hidden');
+  imgGen2.classList.remove('hidden');
+  imgGen3.classList.remove('hidden');
+  loadings.forEach((loading) => {
+    loading.classList.add('hidden');
+  });
+  // downloadLinks.forEach((link, index) => {
+  //   link.classList.remove('hidden');
+  //   link.href = `${res.data.data[index].url}`;
+  // });
+};
+
+const ImgGenErrorHandel = (info) => {
+  outputSec.classList.add('hidden');
+  outputSec.classList.remove('grid');
+  const errContainer = document.createElement('div');
+  errContainer.classList.add(
+    'absolute',
+    'right-5',
+    'left-5',
+    'mx-auto',
+    'max-w-max',
+    'bottom-5',
+    'bg-red-600',
+    'bg-opacity-70',
+    'text-center',
+    'px-3',
+    'py-6',
+    'font-Play',
+    'transition-all',
+    'duration-1000',
+    'rounded-lg',
+    'pointer-events-none'
+  );
+  errContainer.textContent = info;
+  document.querySelector('body').appendChild(errContainer);
+  setTimeout(() => {
+    errContainer.classList.add('opacity-0');
+  }, 2500);
+};
+
+formFisier.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const file = e.target.file.files[0];
+  console.log(file.type);
+  if (file.type !== 'image/png' && file.type !== 'image/jpeg') {
+    ImgGenErrorHandel('Acest tip de fisier nu este suportat.');
+    return;
+  }
+  // UI UPDATE WITH THE LOADING ANIMATIONS
+  ImgGenLoadingUI(file);
+
   const reader = new FileReader();
   reader.onload = async () => {
     const base64Data = reader.result.split(',')[1];
@@ -48,85 +144,22 @@ formFisier.addEventListener('submit', async (e) => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      let promise1 = new Promise(function (resolve, reject) {
-        try {
-          const imgload1 = new Image();
-          imgload1.onload = function () {
-            imgGen1.src = this.src;
-            resolve();
-          };
-          imgload1.src = `${res.data.data[0].url}`;
-        } catch (error) {
-          reject(error);
-        }
-      });
-      let promise2 = new Promise(function (resolve, reject) {
-        try {
-          const imgload2 = new Image();
-          imgload2.onload = function () {
-            imgGen2.src = this.src;
-            resolve();
-          };
-          imgload2.src = `${res.data.data[1].url}`;
-        } catch (error) {
-          reject(error);
-        }
-      });
-      let promise3 = new Promise(function (resolve, reject) {
-        try {
-          const imgload3 = new Image();
-          imgload3.onload = function () {
-            imgGen3.src = this.src;
-            resolve();
-          };
-          imgload3.src = `${res.data.data[2].url}`;
-        } catch (error) {
-          reject(error);
-        }
-      });
-      await Promise.all([promise1, promise2, promise3]);
-      imgGen1.classList.remove('hidden');
-      imgGen2.classList.remove('hidden');
-      imgGen3.classList.remove('hidden');
-      loadings.forEach((loading) => {
-        loading.classList.add('hidden');
-      });
+      await ImgGenPhotoRender(res);
     } catch (error) {
       const errorStatus = JSON.parse(error.response.request.response).status;
       if (errorStatus === 429) {
-        outputSec.classList.add('hidden');
-        outputSec.classList.remove('grid');
-        const errContainer = document.createElement('div');
-        errContainer.classList.add(
-          'absolute',
-          'right-5',
-          'left-5',
-          'mx-auto',
-          'max-w-max',
-          'bottom-5',
-          'bg-red-600',
-          'bg-opacity-70',
-          'text-center',
-          'px-3',
-          'py-6',
-          'font-Play',
-          'transition-all',
-          'duration-1000',
-          'rounded-lg',
-          'pointer-events-none'
+        ImgGenErrorHandel(
+          'A fost depasita limita de cereri, va rugam sa incercati intr-un minut.'
         );
-        errContainer.textContent =
-          'A fost depasita limita de cereri, va rugam sa incercati intr-un minut.';
-        document.querySelector('body').appendChild(errContainer);
-        setTimeout(() => {
-          errContainer.classList.add('opacity-0');
-        }, 2500);
+        return;
       }
+      ImgGenErrorHandel('A aparut o eroare neasteptata.');
     }
   };
   reader.readAsDataURL(file);
   formFisier.reset();
 });
+
 window.onload = () => {
   formFisier.reset();
 };

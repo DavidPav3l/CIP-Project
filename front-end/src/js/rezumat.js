@@ -120,7 +120,7 @@ const OutputUpdate = (info, formix, numero) => {
     'mb-12',
     'mx-auto',
     'flex',
-    'w-[70%]',
+    'w-[85%]',
     'max-w-3xl',
     'flex-col',
     'items-center',
