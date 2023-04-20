@@ -11,12 +11,14 @@ const outputSec = document.querySelector('#output_section');
 const loadingUser = document.querySelector('.loading_user');
 const loadings = document.querySelectorAll('.loading');
 const downloadLinks = document.querySelectorAll('.download_img');
+const descriere = document.querySelector('#descriere');
 
 const ImgGenLoadingUI = (file) => {
   imgUser.classList.add('hidden');
   imgGen1.classList.add('hidden');
   imgGen2.classList.add('hidden');
   imgGen3.classList.add('hidden');
+  descriere.classList.add('hidden');
   if (loadingUser.classList.contains('hidden')) {
     loadingUser.classList.remove('hidden');
     loadings.forEach((loading) => {
@@ -51,7 +53,7 @@ const ImgGenPhotoRender = async (res) => {
         imgGen1.src = this.src;
         resolve();
       };
-      imgload1.src = `${res.data.data[0].url}`;
+      imgload1.src = `${res.data[0].data[0].url}`;
     } catch (error) {
       reject(error);
     }
@@ -63,7 +65,7 @@ const ImgGenPhotoRender = async (res) => {
         imgGen2.src = this.src;
         resolve();
       };
-      imgload2.src = `${res.data.data[1].url}`;
+      imgload2.src = `${res.data[0].data[1].url}`;
     } catch (error) {
       reject(error);
     }
@@ -75,7 +77,7 @@ const ImgGenPhotoRender = async (res) => {
         imgGen3.src = this.src;
         resolve();
       };
-      imgload3.src = `${res.data.data[2].url}`;
+      imgload3.src = `${res.data[0].data[2].url}`;
     } catch (error) {
       reject(error);
     }
@@ -84,13 +86,11 @@ const ImgGenPhotoRender = async (res) => {
   imgGen1.classList.remove('hidden');
   imgGen2.classList.remove('hidden');
   imgGen3.classList.remove('hidden');
+  descriere.classList.remove('hidden');
+  descriere.textContent = `"${res.data[1].content}"`;
   loadings.forEach((loading) => {
     loading.classList.add('hidden');
   });
-  // downloadLinks.forEach((link, index) => {
-  //   link.classList.remove('hidden');
-  //   link.href = `${res.data.data[index].url}`;
-  // });
 };
 
 const ImgGenErrorHandel = (info) => {

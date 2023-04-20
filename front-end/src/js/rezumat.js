@@ -105,7 +105,7 @@ const OutputUpdate = (info, formix, numero) => {
     'font-exo',
     'text-white',
     'max-h-[60vh]',
-    'overflow-y-scroll',
+    'overflow-y-auto',
     'px-6',
     'py-4',
     'rounded-lg',

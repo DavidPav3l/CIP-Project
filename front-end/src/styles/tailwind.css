@@ -2,3 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@200&family=Monda&family=Play:wght@400;700&display=swap');
+
+::-webkit-scrollbar {
+  width: 0.4rem !important;
+}
+::-webkit-scrollbar-track {
+  background: #6800ff !important;
+  border-radius: 100vw !important;
+  margin-top: 0 !important;
+}
+::-webkit-scrollbar-thumb {
+  background: #ffffff !important;
+  border-radius: 100vw !important;
+  border: 0.085em solid #6800ff !important;
+
+  transition: all 1s ease-in-out !important;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a9a9a9 !important;
+}

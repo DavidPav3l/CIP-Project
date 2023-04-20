@@ -1,12 +1,20 @@
 // IMPORTURI NECESARE
 const { Configuration, OpenAIApi } = require('openai');
 require('dotenv').config();
+const CloudmersiveImageApiClient = require('cloudmersive-image-api-client');
 const sharp = require('sharp');
 // CONFIG GPT API
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
+
+// CONFIG CLOUDMERSIVE API
+const defaultClient = CloudmersiveImageApiClient.ApiClient.instance;
+const Apikey = defaultClient.authentications['Apikey'];
+Apikey.apiKey = process.env.CLOUD_KEY;
+
+var apiInstance = new CloudmersiveImageApiClient.RecognizeApi();
 
 const photoInput = async (req, res) => {
   const imgData = req.body.img;
@@ -34,7 +42,25 @@ const photoInput = async (req, res) => {
       3,
       '1024x1024'
     );
-    res.status(200).send(response.data);
+    apiInstance.recognizeDescribe(bufferData, function (error) {
+      const data = JSON.parse(error.response.res.text).BestOutcome.Description;
+      openai
+        .createChatCompletion({
+          model: 'gpt-3.5-turbo',
+          messages: [
+            {
+              role: 'user',
+              content: `You must respond in Romanian. Translate the following text in Romanian: ${data}`,
+            },
+          ],
+          temperature: 0.5,
+        })
+        .then((romanianData) => {
+          res
+            .status(200)
+            .send([response.data, romanianData.data.choices[0].message]);
+        });
+    });
   } catch (error) {
     res.status(404).send(error);
   }
