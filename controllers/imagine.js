@@ -42,6 +42,17 @@ const photoInput = async (req, res) => {
       3,
       '1024x1024'
     );
+    res.status(200).send(response.data);
+  } catch (error) {
+    res.status(404).send(error);
+  }
+};
+
+const descpInput = async (req, res) => {
+  const imgData = req.body.img;
+  if (!imgData) res.status(400).end('caca');
+  try {
+    const bufferData = Buffer.from(imgData, 'base64');
     apiInstance.recognizeDescribe(bufferData, function (error) {
       const data = JSON.parse(error.response.res.text).BestOutcome.Description;
       openai
@@ -56,9 +67,7 @@ const photoInput = async (req, res) => {
           temperature: 0.5,
         })
         .then((romanianData) => {
-          res
-            .status(200)
-            .send([response.data, romanianData.data.choices[0].message]);
+          res.status(200).send(romanianData.data.choices[0].message);
         });
     });
   } catch (error) {
@@ -66,4 +75,4 @@ const photoInput = async (req, res) => {
   }
 };
 
-module.exports = { photoInput };
+module.exports = { photoInput, descpInput };

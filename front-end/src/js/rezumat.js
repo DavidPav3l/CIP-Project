@@ -202,8 +202,40 @@ const OutputUpdate = (info, formix, numero) => {
   });
 };
 
+const ImgGenErrorHandel = (info) => {
+  const errContainer = document.createElement('div');
+  errContainer.classList.add(
+    'absolute',
+    'right-5',
+    'left-5',
+    'mx-auto',
+    'max-w-max',
+    'bottom-5',
+    'bg-red-600',
+    'bg-opacity-70',
+    'text-center',
+    'px-3',
+    'py-6',
+    'font-Play',
+    'transition-all',
+    'duration-1000',
+    'rounded-lg',
+    'pointer-events-none'
+  );
+  errContainer.textContent = info;
+  document.querySelector('body').appendChild(errContainer);
+  setTimeout(() => {
+    errContainer.classList.add('opacity-0');
+  }, 2500);
+};
+
 fileForm.addEventListener('submit', async (e) => {
   e.preventDefault();
+  const file = e.target.file.files[0];
+  if (file.type !== 'application/pdf') {
+    ImgGenErrorHandel('Acest tip de fisier nu este suportat.');
+    return;
+  }
 
   // SCHIMBA UI-ul, ADAUGA LOADING ANIMATION
   RemoveInputandAddLoading();

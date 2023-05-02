@@ -45,7 +45,7 @@ const ImgGenLoadingUI = (file) => {
   readery.readAsDataURL(file);
 };
 
-const ImgGenPhotoRender = async (res) => {
+const ImgGenPhotoRender = async (resImg, resDescp) => {
   let promise1 = new Promise(function (resolve, reject) {
     try {
       const imgload1 = new Image();
@@ -53,7 +53,7 @@ const ImgGenPhotoRender = async (res) => {
         imgGen1.src = this.src;
         resolve();
       };
-      imgload1.src = `${res.data[0].data[0].url}`;
+      imgload1.src = `${resImg.value.data.data[0].url}`;
     } catch (error) {
       reject(error);
     }
@@ -65,7 +65,7 @@ const ImgGenPhotoRender = async (res) => {
         imgGen2.src = this.src;
         resolve();
       };
-      imgload2.src = `${res.data[0].data[1].url}`;
+      imgload2.src = `${resImg.value.data.data[1].url}`;
     } catch (error) {
       reject(error);
     }
@@ -77,7 +77,7 @@ const ImgGenPhotoRender = async (res) => {
         imgGen3.src = this.src;
         resolve();
       };
-      imgload3.src = `${res.data[0].data[2].url}`;
+      imgload3.src = `${resImg.value.data.data[2].url}`;
     } catch (error) {
       reject(error);
     }
@@ -87,7 +87,7 @@ const ImgGenPhotoRender = async (res) => {
   imgGen2.classList.remove('hidden');
   imgGen3.classList.remove('hidden');
   descriere.classList.remove('hidden');
-  descriere.textContent = `"${res.data[1].content}"`;
+  descriere.textContent = `"${resDescp.value.data.content}"`;
   loadings.forEach((loading) => {
     loading.classList.add('hidden');
   });
@@ -125,7 +125,6 @@ const ImgGenErrorHandel = (info) => {
 formFisier.addEventListener('submit', async (e) => {
   e.preventDefault();
   const file = e.target.file.files[0];
-  console.log(file.type);
   if (file.type !== 'image/png' && file.type !== 'image/jpeg') {
     ImgGenErrorHandel('Acest tip de fisier nu este suportat.');
     return;
@@ -139,20 +138,33 @@ formFisier.addEventListener('submit', async (e) => {
     const formData = new FormData();
     formData.append('img', base64Data);
     try {
-      const res = await axios.post('/imagine', formData, {
+      const resImg = axios
+        .post('/imagine', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        .catch((error) => {
+          const errorStatus = JSON.parse(
+            error.response.request.response
+          ).status;
+          if (errorStatus === 429) {
+            ImgGenErrorHandel(
+              'A fost depasita limita de cereri, va rugam sa incercati intr-un minut.'
+            );
+            return;
+          }
+          ImgGenErrorHandel('A aparut o eroare neasteptata.');
+        });
+      const resDescp = axios.post('/imagine/descp', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-      await ImgGenPhotoRender(res);
+      const res = await Promise.allSettled([resImg, resDescp]);
+      await ImgGenPhotoRender(res[0], res[1]);
     } catch (error) {
-      const errorStatus = JSON.parse(error.response.request.response).status;
-      if (errorStatus === 429) {
-        ImgGenErrorHandel(
-          'A fost depasita limita de cereri, va rugam sa incercati intr-un minut.'
-        );
-        return;
-      }
+      console.log(error);
       ImgGenErrorHandel('A aparut o eroare neasteptata.');
     }
   };
