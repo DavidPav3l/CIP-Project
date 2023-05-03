@@ -122,7 +122,7 @@ var app = {
     app.container = document.createElement('div');
     app.container.className = 'animation-container';
     animationWrapper.appendChild(app.container);
-    window.setInterval(app.add, 100);
+    window.setInterval(app.add, 500);
   },
 
   add: function () {

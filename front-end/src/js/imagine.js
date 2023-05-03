@@ -165,7 +165,6 @@ formFisier.addEventListener('submit', async (e) => {
       await ImgGenPhotoRender(res[0], res[1]);
     } catch (error) {
       console.log(error);
-      ImgGenErrorHandel('A aparut o eroare neasteptata.');
     }
   };
   reader.readAsDataURL(file);
